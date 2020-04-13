@@ -58,7 +58,7 @@ param(
 }
 
 function get-RDPSession(){
-    prarm(
+    param(
     [Parameter(Mandatory=$true)]$fqdn
     )
     $ls=show-LoadingScreen -note "Sessions"
@@ -192,7 +192,7 @@ $BtnConnect.Add_Click(
                         $computername=$HostInput.Text
 
                 if($CheckBoxControl.Checked -and $CheckBoxnoConsent.Checked){
-                    connect-rdpSession -fqdn $computername -sessionID 1 -control -noConsent
+                    connect-rdpSession -fqdn $computername -sessionID 1 -control -noconsent
                     }elseif($CheckBoxControl.Checked){
                     connect-rdpSession -fqdn $computername -sessionID 1 -control
                     }
