@@ -41,10 +41,10 @@ The code for detecting concurrent sessions is already in source and just not in 
 
 
 ## Citations
-https://community.spiceworks.com/topic/1974807-remote-assistance-take-control-without-user-interaction?page=1#entry-6722269
-https://community.spiceworks.com/topic/1974807-remote-assistance-take-control-without-user-interaction
-https://help.nerdio.net/hc/en-us/articles/360027508512-How-do-I-shadow-a-specific-user-s-desktop-on-a-multi-user-session-host-
-https://community.spiceworks.com/how_to/136210-use-mstsc-as-a-remote-viewer-controller
-https://help.f-secure.com/product.html?business/radar/3.0/en/task_634DEC31FB56434D8692BFEACB77829D-3.0-en
-https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-firewall/create-inbound-rules-to-support-rpc
-Citation: https://superuser.com/questions/833963/is-there-a-way-to-limit-windows-so-only-one-user-can-be-logged-on-at-a-time-win
+- https://community.spiceworks.com/topic/1974807-remote-assistance-take-control-without-user-interaction?page=1#entry-6722269
+- https://community.spiceworks.com/topic/1974807-remote-assistance-take-control-without-user-interaction
+- https://help.nerdio.net/hc/en-us/articles/360027508512-How-do-I-shadow-a-specific-user-s-desktop-on-a-multi-user-session-host-
+- https://community.spiceworks.com/how_to/136210-use-mstsc-as-a-remote-viewer-controller
+- https://help.f-secure.com/product.html?business/radar/3.0/en/task_634DEC31FB56434D8692BFEACB77829D-3.0-en
+- https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-firewall/create-inbound-rules-to-support-rpc
+- https://superuser.com/questions/833963/is-there-a-way-to-limit-windows-so-only-one-user-can-be-logged-on-at-a-time-win
