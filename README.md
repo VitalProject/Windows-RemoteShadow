@@ -17,8 +17,8 @@
   - See the citated articles on RPC Firewall
 
 ## Windows-RemoteShadow Tool
-    This tool allows you to enter the hostname or browse the domain for a machine you would like to shadow
-    The browse feature detects the current dowmain and loads computer objects in along with FQDN and one level of OU information
+ This tool allows you to enter the hostname or browse the domain for a machine you would like to shadow
+ The browse feature detects the current dowmain and loads computer objects in along with FQDN and one level of OU information
 
 
 ## RDP Shadow Issues
