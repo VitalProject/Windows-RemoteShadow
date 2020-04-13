@@ -3,19 +3,18 @@
 ## Environment Configuration
 
 - Make sure that RDP is enable in settings, for security use network level AUTH
-
 - Then configure the machines Terminal Services settings “HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services” 
  - This is probably easiest done by GPO
-  - Computer Configuration\Administrative Templates\Windows Components\Remote Desktop Services\Remote Desktop Session Host\Connections\Set rules for remote control of Remote Desktop Services user sessions
-   - The options are:
-    1. No remote control allowed: Disallows an administrator to use remote control or view a remote user session.
-    2. Full Control with user's permission: Allows the administrator to interact with the session, with the user's consent.
-    3. Full Control without user's permission: Allows the administrator to interact with the session, without the user's consent.
-    4. View Session with user's permission: Allows the administrator to watch the session of a remote user with the user's consent. 
-    5. View Session without user's permission: Allows the administrator to watch the session of a remote user without the user's consent.
+   - Computer Configuration\Administrative Templates\Windows Components\Remote Desktop Services\Remote Desktop Session Host\Connections\Set rules for remote control of Remote Desktop Services user sessions
+ - The options are:
+      1. No remote control allowed: Disallows an administrator to use remote control or view a remote user session.
+      2. Full Control with user's permission: Allows the administrator to interact with the session, with the user's consent.
+      3. Full Control without user's permission: Allows the administrator to interact with the session, without the user's consent.
+      4. View Session with user's permission: Allows the administrator to watch the session of a remote user with the user's consent. 
+      5. View Session without user's permission: Allows the administrator to watch the session of a remote user without the user's consent.
  
 - Mmake sure that the windows firewalls are configured to allow for RPC
- - See the citated articles on RPC Firewall
+  - See the citated articles on RPC Firewall
 
 ## Windows-RemoteShadow Tool
     This tool allows you to enter the hostname or browse the domain for a machine you would like to shadow
@@ -25,10 +24,10 @@
 ## RDP Shadow Issues
 - Multiple concurrent local logins.
 - Shadowing requires specification of the current session.
- -	If there are multiple concurrent sessions on a workstation then you need to specify which one to connect to.
- - Options:
-  1.	Use GPO to limit concurrent connections
-  2.	Enable WSManagement service so that you can detect concurrent connections. 
+  -	If there are multiple concurrent sessions on a workstation then you need to specify which one to connect to.
+  - Options:
+    1.	Use GPO to limit concurrent connections
+    2.	Enable WSManagement service so that you can detect concurrent connections. 
 
 The code for detecting concurrent sessions is already in source and just not in the GUI at this time.
 
