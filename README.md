@@ -3,9 +3,11 @@
 ## Environment Configuration
 
 - Make sure that RDP is enable in settings, for security use network level AUTH
+![Image of Remote Access](https://github.com/Mentaleak/Windows-RemoteShadow/blob/master/docs/Remote_access.png?raw=true)
 - Then configure the machines Terminal Services settings “HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services” 
  - This is probably easiest done by GPO
    - Computer Configuration\Administrative Templates\Windows Components\Remote Desktop Services\Remote Desktop Session Host\Connections\Set rules for remote control of Remote Desktop Services user sessions
+![Image of GPO for RDP](https://github.com/Mentaleak/Windows-RemoteShadow/blob/master/docs/GroupPolicy.png?raw=true)
  - The options are:
       1. No remote control allowed: Disallows an administrator to use remote control or view a remote user session.
       2. Full Control with user's permission: Allows the administrator to interact with the session, with the user's consent.
@@ -18,7 +20,9 @@
 
 ## Windows-RemoteShadow Tool
  This tool allows you to enter the hostname or browse the domain for a machine you would like to shadow
+ ![Image of Util](https://github.com/Mentaleak/Windows-RemoteShadow/blob/master/docs/Utility.png?raw=true)
  The browse feature detects the current dowmain and loads computer objects in along with FQDN and one level of OU information
+ ![Image of Util Browse](https://github.com/Mentaleak/Windows-RemoteShadow/blob/master/docs/Select%20Macchine%20Browse.png?raw=true)
 
 
 ## RDP Shadow Issues
