@@ -103,6 +103,54 @@ function connect-rdpSession(){
 }
 
 
+function get-RDPSession(){
+    param(
+    [Parameter(Mandatory=$true)]$fqdn
+    )
+    $ls=show-LoadingScreen -note "Sessions"
+    $sessions= Invoke-Command -ComputerName $fqdn -ScriptBlock { query session } -credential $cred
+    $sessions=$sessions[1..$sessions.Length]
+    $sessionParse=@()
+    foreach($session in $sessions){
+        $ssp=$session.Split(" ")|where {$_ -ne ""}
+        if($ssp.count -ge 4){
+            $sessionParse+=[pscustomobject]@{
+            SessionName=$ssp[0]
+            Username=$ssp[1]
+            ID=$ssp[2]
+            State=$ssp[3]
+            }
+        }
+    }
+    $ls.close()
+    $selectedSession=$sessionParse|Out-GridView -OutputMode Single -Title "Select a Session"
+    return $selectedSession
+}
+
+function connect-rdpSession(){
+    param(
+    [Parameter(Mandatory=$true)]$fqdn,
+    [Parameter(Mandatory=$true)]$sessionID,
+    [switch]$control,
+    [switch]$noConsent
+    )
+    $command="/prompt /V:$($fqdn) /shadow:$($sessionID)"
+    if($control){
+        $command+=" /control /admin"
+    }
+
+    if($noConsent){
+        $command+=" /noConsentPrompt"
+    }
+
+    Start-Process -FilePath mstsc -ArgumentList "$command"
+}
+
+
+
+
+
+
 $script:computers=$null
 Add-Type -AssemblyName System.Windows.Forms
 [System.Windows.Forms.Application]::EnableVisualStyles()
@@ -186,28 +234,30 @@ $BtnBrowse.Add_Click(
         }
     )
 
-$BtnConnect.Add_Click(
-        {    
-            if($HostInput.Text){
-                        $computername=$HostInput.Text
 
+$BtnConnect.Add_Click(
+    {    
+        if($HostInput.Text){
+            $computername=$HostInput.Text
+            $selectedSession = get-RDPSession -fqdn $computername
+            if($selectedSession){
+                $sessionID = $selectedSession.ID
                 if($CheckBoxControl.Checked -and $CheckBoxnoConsent.Checked){
-                    connect-rdpSession -fqdn $computername -sessionID 1 -control -noconsent
-                    }elseif($CheckBoxControl.Checked){
-                    connect-rdpSession -fqdn $computername -sessionID 1 -control
-                    }
-                    elseif($CheckBoxnoConsent.Checked){
-                    connect-rdpSession -fqdn $computername -sessionID 1 -noConsent
-                    }
-                    else{
-                    connect-rdpSession -fqdn $computername -sessionID 1
-                    }
-                                            $form.Dispose()
-            }else{
-                [System.Windows.Forms.MessageBox]::Show("No machine Selected." , "ERROR")
+                    connect-rdpSession -fqdn $computername -sessionID $sessionID -control -noconsent
+                } elseif($CheckBoxControl.Checked){
+                    connect-rdpSession -fqdn $computername -sessionID $sessionID -control
+                } elseif($CheckBoxnoConsent.Checked){
+                    connect-rdpSession -fqdn $computername -sessionID $sessionID -noConsent
+                } else{
+                    connect-rdpSession -fqdn $computername -sessionID $sessionID
                 }
+                $form.Dispose()
+            }
+        } else{
+            [System.Windows.Forms.MessageBox]::Show("No machine Selected." , "ERROR")
         }
-    )
+    }
+)
 
 $form.BringToFront()
 $form.ShowDialog()
