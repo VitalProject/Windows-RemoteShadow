@@ -1,4 +1,4 @@
-﻿$baseDir = Split-Path $myinvocation.mycommand.path -Parent
+$baseDir = Split-Path $myinvocation.mycommand.path -Parent
 #https://github.com/Mentaleak/Show-LoadingScreen
 import-module (Join-Path -Path $baseDir -ChildPath "Show-LoadingScreen.ps1")
 
@@ -57,27 +57,26 @@ param(
     return $computer
 }
 
-function get-RDPSession(){
+function get-RDPSessionConsole(){
     param(
     [Parameter(Mandatory=$true)]$fqdn
     )
     $ls=show-LoadingScreen -note "Sessions"
-    $sessions= Invoke-Command -ComputerName $fqdn -ScriptBlock { query session console } -credential $cred
+    $sessions= Invoke-Command -ComputerName $fqdn -ScriptBlock { query session console } 
     $sessions=$sessions[1..$sessions.Length]
     $sesionParse=@()
     $sessions|foreach{
     $ssp=$sessions.Split(" ")|where {$_ -ne ""}
-        if($ssp.count -ge 4){
+        if($ssp.count -ge 3){
             $sesionParse+=[pscustomobject]@{
             SessionName=$ssp[0]
-            Username=$ssp[1]
-            ID=$ssp[2]
-            State=$ssp[3]
+            ID=$ssp[1]
+            State=$ssp[2]
             }
         }
 }
 $ls.close()
-$session=$sesionParse|Out-GridView -OutputMode Single
+$session=$sesionParse[0]
 
 }
 
@@ -101,14 +100,33 @@ function connect-rdpSession(){
     Start-Process -FilePath mstsc -ArgumentList "$command"
 
 }
+function Test-PortOpenPS {
+    param (
+        [string]$target,
+        [int[]]$ports
+    )
 
+    foreach ($port in $ports) {
+        try {
+            $tcpClient = New-Object System.Net.Sockets.TcpClient
+            $tcpClient.Connect($target, $port)
+            $tcpClient.Close()
+            return $true  # Port is open
+        } catch {
+            # Port is closed, continue to the next port
+        }
+    }
+
+    return $false  # None of the specified ports are open
+}
 
 function get-RDPSession(){
     param(
     [Parameter(Mandatory=$true)]$fqdn
     )
     $ls=show-LoadingScreen -note "Sessions"
-    $sessions= Invoke-Command -ComputerName $fqdn -ScriptBlock { query session } -credential $cred
+    if(Test-PortOpenPS -target $fqdn -ports @(5985,5986)){
+    $sessions= Invoke-Command -ComputerName $fqdn -ScriptBlock { query session }
     $sessions=$sessions[1..$sessions.Length]
     $sessionParse=@()
     foreach($session in $sessions){
@@ -121,6 +139,15 @@ function get-RDPSession(){
             State=$ssp[3]
             }
         }
+        elseif($ssp[0] -eq "console"){
+        $sessionParse+=[pscustomobject]@{
+            SessionName=$ssp[0]
+            Username="N/A"
+            ID=$ssp[1]
+            State=$ssp[2]
+            }
+        }
+    }
     }
     $ls.close()
     $selectedSession=$sessionParse|Out-GridView -OutputMode Single -Title "Select a Session"
