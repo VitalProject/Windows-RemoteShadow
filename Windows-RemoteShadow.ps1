@@ -109,9 +109,11 @@ function Test-PortOpenPS {
     foreach ($port in $ports) {
         try {
             $tcpClient = New-Object System.Net.Sockets.TcpClient
-            $tcpClient.Connect($target, $port)
+            $portOpened =  $tcpClient.ConnectAsync($target, $port).Wait(50)
             $tcpClient.Close()
-            return $true  # Port is open
+            if($portOpened){
+                return $true  # Port is open
+            }
         } catch {
             # Port is closed, continue to the next port
         }
