@@ -21,7 +21,7 @@
 ## Windows-RemoteShadow Tool
  This tool allows you to enter the hostname or browse the domain for a machine you would like to shadow
  ![Image of Util](https://github.com/Mentaleak/Windows-RemoteShadow/blob/master/docs/Utility.png?raw=true)
- The browse feature detects the current dowmain and loads computer objects in along with FQDN and one level of OU information
+ The browse feature detects the current domain and loads computer objects in along with FQDN and one level of OU information
  ![Image of Util Browse](https://github.com/Mentaleak/Windows-RemoteShadow/blob/master/docs/Select%20Macchine%20Browse.png?raw=true)
 
 
